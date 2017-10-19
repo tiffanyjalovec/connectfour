@@ -8,7 +8,7 @@ Be the first player to get four of your colored checkers in a row - horizontally
 
 1.  Red or yellow player starts.  Players will alternate turns after playing a checker.  Each player will be prompted that it is his or her turn by "[Red]/[Yellow], please enter the column to drop your checker:".
 2.  On your turn, you specify which column to drop your checker when prompted. The checker will "fall" to the lowest point in that column.
-3.  Following a players move, there will either be a prompt for the next player's move, or the application will output "[Red]/[Blue] wins!" if there is a winner.  
+3.  Following a players move, there will either be a prompt for the next player's move, or the application will output "[Red]/[Yellow] wins!" if there is a winner.  
 4.  After there is a winner, the game will prompt, "Do you want to play again?".   The loser of the previous game will the first player of the next game if the players choose to play again.  Otherwise, the program exits if the players do not want to play again.
 
 #### Expectations
