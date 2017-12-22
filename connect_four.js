@@ -3,6 +3,8 @@ var config = {
 	yellowPlayer: {color: "yellow", position: 2, name: "Yellow"},
 	countToWin: 4,
 	gameOver: false,
+	rows: 6,
+	columns: 7,
 };
 
 var board = [
@@ -25,12 +27,10 @@ function buildRack() {
 	table.setAttribute("id", "board");
 	var tableBody = document.createElement('tbody');
 
-	var rows = 6; 
-	var columns = 7;
-	for(var i=0; i< rows; i++){
+	for(var i=0; i< config.rows; i++){
 		var row = document.createElement('tr');
 
-		for(var j=0; j< columns; j++){
+		for(var j=0; j< config.columns; j++){
 			var cell = document.createElement('td');
 			var checker = document.createElement('div');
 			checker.setAttribute("class", ""+i+"-"+j+" empty");
