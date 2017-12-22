@@ -1,0 +1,59 @@
+.red-checker {
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	background-color: #ff0000;
+}
+
+.yellow-checker {
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	background-color: #ffff00;
+}
+
+.empty {
+	height: 70px;
+	width: 70px;
+}
+
+button {
+	padding: 6px 12px;
+	border-radius: 4px;
+	font-size: 14px;
+	line-height: 2;
+	cursor: pointer;
+	border: 1px solid transparent;
+	display: block;
+  margin: 0 auto;
+}
+
+h1 {
+	color: #979789;
+	padding: 10px 0 0;
+	font-size: 2em;
+	text-align: center;
+}
+
+table {
+	border: .2em solid rgba(0, 0, 0, 0.15);
+	margin: 50px auto;
+	border-radius: 5px;
+}
+
+table td {
+	cursor: pointer;
+	text-align: center;
+	padding: px;
+	border-color: #DDD #AAA;
+	border-width: .12em .12em 0 0;
+	border-style: dashed;
+}
+
+table tr:first-child td {
+	border-top: none;
+}
+
+table tr td:last-child {
+	border-right: none;
+}

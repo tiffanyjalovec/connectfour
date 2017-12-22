@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Testing a new document</title>
+		<link rel="stylesheet" type="text/css" href="connect_four.css">
+	</head>
+
+	<body>
+		<h1 id="msg"></h1>
+		<button id="play-again" onclick="resetGame()">Play Again</button>
+		<script src="connect_four.js"></script> 
+	</body>
+
+</html>
