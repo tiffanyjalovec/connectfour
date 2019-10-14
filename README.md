@@ -23,4 +23,5 @@ Be the first player to get four of your colored checkers in a row - horizontally
 - We want to see what you know. So, if you feel more comfortable doing back-end work, then focus a lot of your energy on creating a beautiful back end code base with a functional front-end experience. However, if you feel more comfortable doing front-end work, then focus on creating a beautiful front-end for the website, and create a functional back-end. We really want to see you shine!
 - Remember that we want to be able to see your work in action, so make sure that it runs.
 - Unit Testing is not required for this, but if you want to show us what you know about unit testing, that would be "bonus"
+- When you are finished, please issue a pull request and then let us know that you've completed the exercise.
 - Have fun with this exercise!
