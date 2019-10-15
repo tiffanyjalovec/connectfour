@@ -1,7 +1,7 @@
 # Connect 4 #
 
 ## Summary ##
-Your exercise will be to create a web version of the classic game of Connect4. The classic board consists of 6 columns with 7 rows high. At the start of a new game, the board is empty. If you have never played Connect4, there are plenty of explanations out on the Internet.
+Your exercise will be to create a web version of the classic game of Connect4. Our board consists of 6 columns with 7 rows high. At the start of a new game, the board is empty. If you have never played Connect4, there are plenty of explanations out on the Internet.
 
 ## Objective ##
 
