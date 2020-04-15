@@ -1,0 +1,42 @@
+.begin {
+  height: 60px;
+  width: 60px;
+  background-color: antiquewhite;
+  border-radius: 100px;
+}
+
+.square {
+  height: 70px;
+  width: 70px;
+  background-color: blue;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.choose-color {
+  display: flex;
+  height: 70px;
+  align-items: center;
+  position: center;
+}
+ .hide-choice {
+  visibility: hidden;
+  height: 70px;
+}
+
+.red-piece {
+ height: 60px;
+ width: 60px;
+ background-color: red;
+ border-radius: 100px;
+}
+
+.yellow-piece {
+ height: 60px;
+ width: 60px;
+ background-color: yellow;
+ border-radius: 100px;
+}
