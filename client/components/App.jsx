@@ -67,7 +67,6 @@ class App extends React.Component {
           if (board[i][j] === board[i][j + 1]
             && board[i][j] === board[i][j + 2]
             && board[i][j] === board[i][j + 3]) {
-            console.log('victory!');
             this.setState({
               victory: true
             });
@@ -84,7 +83,6 @@ class App extends React.Component {
           if (board[i][j] === board[i + 1][j]
             && board[i][j] === board[i + 2][j]
             && board[i][j] === board[i + 3][j]) {
-            console.log('victory!');
             this.setState({
               victory: true
             });
@@ -95,7 +93,7 @@ class App extends React.Component {
     }
 
     //check major diagonal (bottom-right to top-left)
-    for (let i = 5; i > 2; i--) {
+    for (let i = 5; i > 3; i--) {
       for (let j = 6; j > 4; j--) {
         if (board[i][j] > 0) {
           if (board[i][j] === board[i - 1][j - 1]
