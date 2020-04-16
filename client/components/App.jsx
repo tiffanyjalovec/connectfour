@@ -10,11 +10,13 @@ class App extends React.Component {
       currentPlayer: null,
       victory: false,
       chooseColor: true,
-      message: 'First player, click on the color of your choice:'
+      message: 'First player, click on the color of your choice:',
+      tryAgain: false
     }
     this.chooseColor = this.chooseColor.bind(this);
     this.startGame = this.startGame.bind(this);
     this.playAgain = this.playAgain.bind(this);
+    this.noThanks = this.noThanks.bind(this);
   }
 
   createBoard() {
@@ -36,7 +38,6 @@ class App extends React.Component {
   }
 
   chooseColor(e) {
-    console.log(e.target.value);
     e.preventDefault();
     if (e.target.value === 'Red ') {
       this.setState({
@@ -49,12 +50,12 @@ class App extends React.Component {
     }
     this.setState({
       chooseColor: false,
-      message: `${e.target.value} player, click on a column to drop your piece!`
+      message: `${e.target.value} player, click on a column to drop your piece!`,
+      tryAgain: false
     });
   }
 
   togglePlayer() {
-    console.log(this.state.board);
     return (this.state.currentPlayer === 1) ? (this.state.currentPlayer = 2) : (this.state.currentPlayer = 1);
   }
 
@@ -130,48 +131,62 @@ class App extends React.Component {
 
   startGame(col) {
     let board = this.state.board;
-    for (let row = 5; row >= 0; row--) {
-      if (board[row][col] === 0) {
-        board[row][col] = this.state.currentPlayer;
-        break;
-      }
-    }
-
-    let color = null;
-    if (this.state.currentPlayer === 1) {
-      color = 'Red ';
-    } else {
-      color = 'Yellow ';
-    }
-
-    let victory = this.findVictory(board);
-
-    if (victory === this.state.currentPlayer) {
+    if (board[0][col] !== 0 || !this.state.currentPlayer) {
       this.setState({
-        message: `${color} player wins!`
+        tryAgain: true
       })
-    } else {
-      this.setState({
-        board,
-        currentPlayer: this.togglePlayer(),
-        message: this.alertPlayer()
-      });
     }
+    if (!this.state.victory && board[0][col] === 0 && this.state.currentPlayer > 0) {
+        for (let row = 5; row >= 0; row--) {
+          if (board[row][col] === 0) {
+            board[row][col] = this.state.currentPlayer;
+            break;
+          }
+        }
+
+        let color = null;
+        if (this.state.currentPlayer === 1) {
+          color = 'Red ';
+        } else {
+          color = 'Yellow ';
+        }
+
+        let victory = this.findVictory(board);
+
+        if (victory === this.state.currentPlayer) {
+          this.setState({
+            message: `${color} player wins!`,
+          })
+        } else {
+          this.setState({
+            board,
+            currentPlayer: this.togglePlayer(),
+            message: this.alertPlayer(),
+            tryAgain: false
+          });
+        }
+      }
   }
 
   alertPlayer() {
-    let color = null;
-    if (this.state.currentPlayer === 1) {
-      color = 'Red ';
-    } else {
-      color = 'Yellow ';
-    }
+    let color = (this.state.currentPlayer === 1) ? 'Red ' : 'Yellow ';
     return this.state.message = `${color} player, click on a column to drop your piece!`
   }
 
   playAgain() {
     this.createBoard();
+    this.togglePlayer();
     this.alertPlayer();
+    this.setState({
+      victory: false,
+      tryAgain: false
+    })
+  }
+
+  noThanks() {
+    this.setState({
+      message: 'Thank you for playing!',
+    })
   }
 
   render() {
@@ -180,6 +195,7 @@ class App extends React.Component {
         <h3>Connect 4</h3>
         <div></div>
         <h4 className="message">{this.state.message}</h4>
+        <h4 className={`${this.state.tryAgain ? 'try-again' : 'hide'}`}>Please try again.</h4>
         <div className={`${this.state.chooseColor ? 'choose-color' : 'hide-choice'}`}>
           <button onClick={this.chooseColor}
             className="red-piece"
@@ -197,13 +213,19 @@ class App extends React.Component {
             ))}
           </tbody>
         </table>
-        <div className={`${this.state.victory ? 'victory' : 'hide-victory'}`}>
+        <div className={`${this.state.victory ? 'victory' : 'hide'}`}>
+          <h4>Would you like to play again?</h4>
           <button onClick={this.playAgain}
-          className="play-again"
-          type="button">
-            Play Again
+            className="play-again"
+            type="button">
+            YES
           </button>
-          </div>
+          <button onClick={this.noThanks}
+            className="no-thanks"
+            type="button">
+            No Thanks
+          </button>
+        </div>
       </div>
     );
   }

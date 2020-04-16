@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Square = ({ value, column, startGame }) => {
-  console.log(value);
   let piece = 'begin';
   if (value === 1) {
     piece = 'red-piece';

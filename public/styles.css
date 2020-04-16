@@ -1,3 +1,13 @@
+body {
+  font-family: 'Arial';
+  text-align: center;
+}
+
+table {
+  margin: 0 auto;
+  border-spacing: 0px 0px;
+}
+
 .begin {
   height: 60px;
   width: 60px;
@@ -17,7 +27,7 @@
 
 
 .choose-color {
-  display: flex;
+  display: center;
   height: 70px;
   align-items: center;
   position: center;
@@ -39,4 +49,32 @@
  width: 60px;
  background-color: yellow;
  border-radius: 100px;
+}
+
+.victory {
+ height: 30px;
+}
+
+.hide {
+display: none;
+}
+
+.play-again {
+height: 30px;
+width: 100px;
+color: lightgray;
+background-color: green;
+justify-content: center;
+cursor: pointer;
+font-size: medium;
+}
+
+.no-thanks {
+  height: 30px;
+  width: 100px;
+  color: rgb(55, 0, 255);
+  background-color: yellow;
+  justify-content: center;
+  cursor: pointer;
+  font-size: medium;
 }
