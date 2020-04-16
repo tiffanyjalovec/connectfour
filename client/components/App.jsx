@@ -8,16 +8,18 @@ class App extends React.Component {
     this.state = {
       board: [],
       currentPlayer: null,
-      gameOver: false,
-      chooseColor: true
+      victory: false,
+      chooseColor: true,
+      message: 'First player, click on the color of your choice:'
     }
     this.chooseColor = this.chooseColor.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.playAgain = this.playAgain.bind(this);
   }
 
   createBoard() {
     let board = [];
-    for (var i = 0; i < 6; i ++) {
+    for (var i = 0; i < 6; i++) {
       let row = [];
       for (var j = 0; j < 7; j++) {
         row.push(0);
@@ -25,8 +27,7 @@ class App extends React.Component {
       board.push(row);
     }
     this.setState({
-      board,
-      message: 'First player, click on the color of your choice:'
+      board
     });
   }
 
@@ -35,8 +36,9 @@ class App extends React.Component {
   }
 
   chooseColor(e) {
+    console.log(e.target.value);
     e.preventDefault();
-    if (e.target.value === 'red') {
+    if (e.target.value === 'Red ') {
       this.setState({
         currentPlayer: 1
       })
@@ -52,30 +54,125 @@ class App extends React.Component {
   }
 
   togglePlayer() {
+    console.log(this.state.board);
     return (this.state.currentPlayer === 1) ? (this.state.currentPlayer = 2) : (this.state.currentPlayer = 1);
   }
+
+  findVictory(board) {
+    //check horizontal
+    for (let i = 5; i >= 0; i--) {
+      for (let j = 0; j < 4; j++) {
+        if (board[i][j] > 0) {
+          if (board[i][j] === board[i][j + 1]
+            && board[i][j] === board[i][j + 2]
+            && board[i][j] === board[i][j + 3]) {
+            console.log('victory!');
+            this.setState({
+              victory: true
+            });
+            return board[i][j];
+          }
+        }
+      }
+    }
+
+    //check vertical
+    for (let i = 2; i >= 0; i--) {
+      for (let j = 0; j < 7; j++) {
+        if (board[i][j] > 0) {
+          if (board[i][j] === board[i + 1][j]
+            && board[i][j] === board[i + 2][j]
+            && board[i][j] === board[i + 3][j]) {
+            console.log('victory!');
+            this.setState({
+              victory: true
+            });
+            return board[i][j];
+          }
+        }
+      }
+    }
+
+    //check major diagonal (bottom-right to top-left)
+    for (let i = 5; i > 2; i--) {
+      for (let j = 6; j > 4; j--) {
+        if (board[i][j] > 0) {
+          if (board[i][j] === board[i - 1][j - 1]
+            && board[i][j] === board[i - 2][j - 2]
+            && board[i][j] === board[i - 3][j - 3]) {
+            this.setState({
+              victory: true
+            });
+            return board[i][j];
+          }
+        }
+      }
+    }
+
+    //check minor diagonal (bottom-left to top-right)
+    for (let i = 5; i >= 2; i--) {
+      for (let j = 0; j < 4; j++) {
+        if (board[i][j] > 0) {
+          if (board[i][j] === board[i - 1][j + 1]
+            && board[i][j] === board[i - 2][j + 2]
+            && board[i][j] === board[i - 3][j + 3]) {
+            this.setState({
+              victory: true
+            });
+            return board[i][j];
+          }
+        }
+      }
+    }
+
+  }
+
 
   startGame(col) {
     let board = this.state.board;
     for (let row = 5; row >= 0; row--) {
-      if ( board[row][col] === 0 ) {
+      if (board[row][col] === 0) {
         board[row][col] = this.state.currentPlayer;
         break;
       }
     }
+
     let color = null;
     if (this.state.currentPlayer === 1) {
       color = 'Red ';
     } else {
       color = 'Yellow ';
     }
-    this.setState({
-      board,
-      currentPlayer: this.togglePlayer(),
-      message: `${color} player, click on a column to drop your piece!`
-    });
+
+    let victory = this.findVictory(board);
+
+    if (victory === this.state.currentPlayer) {
+      this.setState({
+        message: `${color} player wins!`
+      })
+    } else {
+      this.setState({
+        board,
+        currentPlayer: this.togglePlayer(),
+        message: this.alertPlayer()
+      });
+    }
   }
 
+  alertPlayer() {
+    let color = null;
+    if (this.state.currentPlayer === 1) {
+      color = 'Red ';
+    } else {
+      color = 'Yellow ';
+    }
+    return this.state.message = `${color} player, click on a column to drop your piece!`
+  }
+
+  playAgain() {
+    this.createBoard();
+    this.alertPlayer();
+  }
 
   render() {
     return (
@@ -85,13 +182,13 @@ class App extends React.Component {
         <h4 className="message">{this.state.message}</h4>
         <div className={`${this.state.chooseColor ? 'choose-color' : 'hide-choice'}`}>
           <button onClick={this.chooseColor}
-          className="red-piece"
-          value="Red"
-          type="button"></button>
+            className="red-piece"
+            value='Red '
+            type="button"></button>
           <button onClick={this.chooseColor}
-          className="yellow-piece"
-          value="Yellow"
-          type="button"></button>
+            className="yellow-piece"
+            value='Yellow '
+            type="button"></button>
         </div>
         <table>
           <tbody>
@@ -100,6 +197,13 @@ class App extends React.Component {
             ))}
           </tbody>
         </table>
+        <div className={`${this.state.victory ? 'victory' : 'hide-victory'}`}>
+          <button onClick={this.playAgain}
+          className="play-again"
+          type="button">
+            Play Again
+          </button>
+          </div>
       </div>
     );
   }

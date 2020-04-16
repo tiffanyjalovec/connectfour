@@ -1,7 +1,7 @@
 import React from 'react';
 import Square from './Square.jsx';
 
-const Row = ({ row, startGame }) => {
+const Row = ({ row, startGame, currentPlayer }) => {
   return(
     <tr>
       {row.map((square, index) =>
