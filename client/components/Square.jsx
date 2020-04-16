@@ -1,10 +1,17 @@
 import React from 'react';
 
-const Square = ({value, column}) => {
+const Square = ({ value, column, startGame }) => {
+  let piece = 'begin';
+  if (value === 2) {
+    piece = 'red-piece';
+  } else if (value === 1) {
+    piece = 'yellow-piece';
+  }
+
   return (
     <td>
-      <div className="square">
-      <div className="begin"></div>
+      <div className="square" onClick={() => {startGame(column)}}>
+      <div className={piece}></div>
       </div>
     </td>
   )

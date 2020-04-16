@@ -1,11 +1,11 @@
 import React from 'react';
 import Square from './Square.jsx';
 
-const Row = ({row}) => {
+const Row = ({ row, startGame }) => {
   return(
     <tr>
       {row.map((square, index) =>
-      <Square key={index} value={square} column={index} />
+      <Square key={index} value={square} column={index} startGame={startGame} />
       )}
     </tr>
   );
