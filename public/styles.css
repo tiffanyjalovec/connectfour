@@ -23,18 +23,20 @@ table {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
-
 
 .choose-color {
   display: center;
   height: 70px;
   align-items: center;
   position: center;
+  justify-content: center;
 }
- .hide-choice {
+
+ .hide-visibility {
   visibility: hidden;
-  height: 70px;
+  height: 25px;
 }
 
 .red-piece {
@@ -67,6 +69,7 @@ background-color: green;
 justify-content: center;
 cursor: pointer;
 font-size: medium;
+border-radius: 5px;
 }
 
 .no-thanks {
@@ -77,4 +80,14 @@ font-size: medium;
   justify-content: center;
   cursor: pointer;
   font-size: medium;
+  border-radius: 5px;
+}
+
+.try-again {
+  font-family: fantasy;
+  height: 25px;
+}
+
+.message {
+  height: 25px;
 }
