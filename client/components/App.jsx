@@ -19,15 +19,9 @@ class App extends React.Component {
     this.noThanks = this.noThanks.bind(this);
   }
 
+  //create an empty board
   createBoard() {
-    let board = [];
-    for (var i = 0; i < 6; i++) {
-      let row = [];
-      for (var j = 0; j < 7; j++) {
-        row.push(0);
-      }
-      board.push(row);
-    }
+    let board = new Array(6).fill(0).map (() => new Array(7).fill(0));
     this.setState({
       board
     });
@@ -37,6 +31,7 @@ class App extends React.Component {
     this.createBoard();
   }
 
+  //First Player chooses their own color
   chooseColor(e) {
     e.preventDefault();
     if (e.target.value === 'Red ') {
@@ -55,11 +50,17 @@ class App extends React.Component {
     });
   }
 
+  //Players switch turns
   togglePlayer() {
     return (this.state.currentPlayer === 1) ? (this.state.currentPlayer = 2) : (this.state.currentPlayer = 1);
   }
 
+  //Check for a winner
   findVictory(board) {
+    //check for a tie
+    if (!board[0].includes(0)) {
+      return 'tie';
+    }
     //check horizontal
     for (let i = 5; i >= 0; i--) {
       for (let j = 0; j < 4; j++) {
@@ -75,7 +76,6 @@ class App extends React.Component {
         }
       }
     }
-
     //check vertical
     for (let i = 2; i >= 0; i--) {
       for (let j = 0; j < 7; j++) {
@@ -91,10 +91,9 @@ class App extends React.Component {
         }
       }
     }
-
     //check major diagonal (bottom-right to top-left)
-    for (let i = 5; i > 3; i--) {
-      for (let j = 6; j > 4; j--) {
+    for (let i = 5; i > 2; i--) {
+      for (let j = 6; j > 2; j--) {
         if (board[i][j] > 0) {
           if (board[i][j] === board[i - 1][j - 1]
             && board[i][j] === board[i - 2][j - 2]
@@ -107,9 +106,8 @@ class App extends React.Component {
         }
       }
     }
-
     //check minor diagonal (bottom-left to top-right)
-    for (let i = 5; i >= 2; i--) {
+    for (let i = 5; i > 2; i--) {
       for (let j = 0; j < 4; j++) {
         if (board[i][j] > 0) {
           if (board[i][j] === board[i - 1][j + 1]
@@ -123,54 +121,62 @@ class App extends React.Component {
         }
       }
     }
-
   }
 
-
+  //Play the game
   startGame(col) {
     let board = this.state.board;
+    //if the column is full or the first player did not choose their color, alert the player to try again
     if (board[0][col] !== 0 || !this.state.currentPlayer) {
       this.setState({
         tryAgain: true
       })
     }
+    //if there is no winner yet, play the game
     if (!this.state.victory && board[0][col] === 0 && this.state.currentPlayer > 0) {
-        for (let row = 5; row >= 0; row--) {
-          if (board[row][col] === 0) {
-            board[row][col] = this.state.currentPlayer;
-            break;
-          }
-        }
-
-        let color = null;
-        if (this.state.currentPlayer === 1) {
-          color = 'Red ';
-        } else {
-          color = 'Yellow ';
-        }
-
-        let victory = this.findVictory(board);
-
-        if (victory === this.state.currentPlayer) {
-          this.setState({
-            message: `${color} player wins!`,
-          })
-        } else {
-          this.setState({
-            board,
-            currentPlayer: this.togglePlayer(),
-            message: this.alertPlayer(),
-            tryAgain: false
-          });
+      for (let row = 5; row >= 0; row--) {
+        if (board[row][col] === 0) {
+          board[row][col] = this.state.currentPlayer;
+          break;
         }
       }
+      //assign color to players
+      let color = null;
+      if (this.state.currentPlayer === 1) {
+        color = 'Red ';
+      } else {
+        color = 'Yellow ';
+      }
+      //check for a winner
+      let victory = this.findVictory(board);
+
+      if (victory === this.state.currentPlayer) {
+        this.setState({
+          message: `${color} player wins!`,
+        })
+      } else if (victory === 'tie') {
+        this.setState({
+          message: 'Tie Game',
+          victory: true
+        })
+      } else {
+        this.setState({
+          board,
+          currentPlayer: this.togglePlayer(),
+          message: this.alertPlayer(),
+          tryAgain: false
+        });
+      }
+    }
   }
 
+  //prompt the next player's turn
   alertPlayer() {
     let color = (this.state.currentPlayer === 1) ? 'Red ' : 'Yellow ';
     return this.state.message = `${color} player, click on a column to drop your piece!`
   }
 
+  //if the players want to play again
   playAgain() {
     this.createBoard();
     this.togglePlayer();
@@ -181,6 +187,7 @@ class App extends React.Component {
     })
   }
 
+  //if the players do not want to play again
   noThanks() {
     this.setState({
       message: 'Thank you for playing!',
@@ -190,21 +197,22 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h3>Connect 4</h3>
+        <h2>Connect 4</h2>
         <div></div>
-        <h4 className="message">{this.state.message}</h4>
-        <h4 className={`${this.state.tryAgain ? 'try-again' : 'hide'}`}>Please try again.</h4>
-        <div className={`${this.state.chooseColor ? 'choose-color' : 'hide-choice'}`}>
+        <div className="message">{this.state.message}</div>
+        <div className={`${this.state.tryAgain ? 'try-again' : 'hide-visibility'}`}>Please try again.</div>
+        <div className='choose-color'>
           <button onClick={this.chooseColor}
-            className="red-piece"
+            className={`${this.state.chooseColor ? 'red-piece' : 'hide'}`}
             value='Red '
             type="button"></button>
           <button onClick={this.chooseColor}
-            className="yellow-piece"
+            className={`${this.state.chooseColor ? 'yellow-piece' : 'hide'}`}
             value='Yellow '
             type="button"></button>
+            <div className={`${this.state.chooseColor ? 'hide' : this.state.victory ? 'hide' : (this.state.currentPlayer === 1) ? 'red-piece' : 'yellow-piece'}`}></div>
         </div>
-        <table>
+        <table cellSpacing="0" cellPadding="0">
           <tbody>
             {this.state.board.map((row, index) => (
               <Row key={index} row={row} startGame={this.startGame} />
@@ -212,7 +220,7 @@ class App extends React.Component {
           </tbody>
         </table>
         <div className={`${this.state.victory ? 'victory' : 'hide'}`}>
-          <h4>Would you like to play again?</h4>
+          <h4>Do you want to play again?</h4>
           <button onClick={this.playAgain}
             className="play-again"
             type="button">
