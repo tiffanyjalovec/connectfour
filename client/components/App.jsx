@@ -18,7 +18,7 @@ class App extends React.Component {
     this.playAgain = this.playAgain.bind(this);
     this.noThanks = this.noThanks.bind(this);
   }
-
+  //Say Hi
   //create an empty board
   createBoard() {
     let board = new Array(6).fill(0).map (() => new Array(7).fill(0));
